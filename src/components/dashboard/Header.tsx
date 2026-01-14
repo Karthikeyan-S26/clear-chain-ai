@@ -1,12 +1,38 @@
 import { cn } from "@/lib/utils";
 import { Ghost, Activity, RefreshCw, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 interface HeaderProps {
   className?: string;
 }
 
 export function Header({ className }: HeaderProps) {
+  const { toast } = useToast();
+
+  const handleRefresh = () => {
+    toast({
+      title: "Refreshing data",
+      description: "Fetching latest supply chain updates...",
+    });
+    // Add actual refresh logic here
+  };
+
+  const handleSettingsAction = (action: string) => {
+    toast({
+      title: action,
+      description: `${action} settings are now accessible`,
+    });
+  };
+
   return (
     <header className={cn("flex items-center justify-between py-6", className)}>
       <div className="flex items-center gap-4">
@@ -35,13 +61,40 @@ export function Header({ className }: HeaderProps) {
           <div className="w-2 h-2 rounded-full bg-risk-healthy animate-pulse" />
         </div>
         
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" onClick={handleRefresh}>
           <RefreshCw className="w-4 h-4" />
         </Button>
         
-        <Button variant="outline" size="icon">
-          <Settings className="w-4 h-4" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Settings className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>Settings</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleSettingsAction("General Settings")}>
+              General Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSettingsAction("Notifications")}>
+              Notifications
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSettingsAction("Data Sources")}>
+              Data Sources
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSettingsAction("AI Configuration")}>
+              AI Configuration
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleSettingsAction("User Management")}>
+              User Management
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleSettingsAction("Advanced Settings")}>
+              Advanced Settings
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

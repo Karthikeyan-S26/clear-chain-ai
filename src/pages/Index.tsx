@@ -34,15 +34,17 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Background gradient effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-tier-3/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-tier-3/5 rounded-full blur-3xl animate-pulse-glow delay-300" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 pb-12">
-        <Header />
+        <div className="animate-fade-in-down">
+          <Header />
+        </div>
 
         {/* Key Metrics */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 stagger-children">
           {keyMetrics.map((metric, index) => (
             <MetricCard 
               key={metric.label} 
@@ -54,30 +56,30 @@ const Index = () => {
         </section>
 
         {/* Tier Visualization */}
-        <section className="mb-8">
+        <section className="mb-8 animate-fade-in-up delay-200">
           <TierVisualization />
         </section>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Chart - spans 2 columns */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 animate-fade-in-left delay-300">
             <InventoryChart data={inventoryTrends} />
           </div>
           
           {/* Alert Feed */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 animate-fade-in-right delay-300">
             <AlertFeed alerts={alerts} />
           </div>
         </div>
 
         {/* Risk Heatmap */}
-        <section className="mb-8">
+        <section className="mb-8 animate-fade-in-up delay-400">
           <RiskHeatmap />
         </section>
 
         {/* Suppliers Section */}
-        <section>
+        <section className="animate-fade-in-up delay-500">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-xl font-semibold text-foreground">Supplier Monitor</h2>
@@ -86,7 +88,7 @@ const Index = () => {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1.5 text-xs font-medium rounded-full status-phantom border">
+              <span className="px-3 py-1.5 text-xs font-medium rounded-full status-phantom border animate-pulse">
                 {phantomSuppliers.length} Phantom Detected
               </span>
             </div>
@@ -95,7 +97,7 @@ const Index = () => {
           {/* Phantom Stock Suppliers - Priority Display */}
           {phantomSuppliers.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-sm font-medium text-risk-phantom mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-medium text-risk-phantom mb-3 flex items-center gap-2 animate-bounce-subtle">
                 <Ghost className="w-4 h-4" />
                 Requiring Immediate Attention
               </h3>
